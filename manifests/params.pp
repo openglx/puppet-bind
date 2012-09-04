@@ -22,7 +22,8 @@ class bind::params {
   }
 
   $service = $::operatingsystem ? {
-    default => 'bind9',
+    /(?i:centos|redhat|fedora)/ => 'named',
+    default                     => 'bind9',
   }
 
   $service_status = $::operatingsystem ? {
@@ -38,15 +39,18 @@ class bind::params {
   }
 
   $process_user = $::operatingsystem ? {
-    default => 'bind',
+    /(?i:centos|redhat|fedora)/ => 'named',
+    default                     => 'bind',
   }
 
   $config_dir = $::operatingsystem ? {
-    default => '/etc/bind',
+    /(?i:centos|redhat|fedora)/ => '/var/named',
+    default                     => '/etc/bind',
   }
 
   $config_file = $::operatingsystem ? {
-    default => '/etc/bind/named.conf',
+    /(?i:centos|redhat|fedora)/ => '/etc/named.conf',
+    default                     => '/etc/bind/named.conf',
   }
 
   $config_file_mode = $::operatingsystem ? {
@@ -54,21 +58,25 @@ class bind::params {
   }
 
   $config_file_owner = $::operatingsystem ? {
-    default => 'bind',
+    /(?i:centos|redhat|fedora)/ => 'named',
+    default                     => 'bind',
   }
 
   $config_file_group = $::operatingsystem ? {
-    default => 'bind',
+    /(?i:centos|redhat|fedora)/ => 'named',
+    default                     => 'bind',
   }
 
   $config_file_init = $::operatingsystem ? {
-    /(?i:Debian|Ubuntu|Mint)/ => '/etc/default/bind9',
-    default                   => '/etc/sysconfig/bind',
+    /(?i:Debian|Ubuntu|Mint)/    => '/etc/default/bind9',
+    /(?i:centos|redhat|fedora)/  => '/etc/sysconfig/named',
+    default                      => '/etc/sysconfig/bind',
   }
 
   $pid_file = $::operatingsystem ? {
-    /(?i:Debian|Ubuntu|Mint)/ => '/var/run/named/named.pid',
-    default                   => '/var/run/bind.pid',
+    /(?i:Debian|Ubuntu|Mint)/    => '/var/run/named/named.pid',
+    /(?i:centos|redhat|fedora)/  => '/var/run/named.pid',
+    default                      => '/var/run/bind.pid',
   }
 
   $data_dir = $::operatingsystem ? {

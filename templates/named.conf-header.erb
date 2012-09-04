@@ -3,5 +3,5 @@ options {
         directory "<%= data_dir %>";
         auth-nxdomain no;
         listen-on-v6 { any; };
-        recursion yes;
+        recursion no; // let's not have everybody with an open recurser, please
 };

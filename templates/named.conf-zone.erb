@@ -4,7 +4,11 @@ zone "<%= zone_name %>" {
   file "<%= scope.lookupvar("bind::config_dir") %>/<%= zone_config_file %>";
 <% end -%>
 <% if zone_type == 'slave' -%>
-  masters { <%= zone_master %>; };
+  masters {
+    <% zone_master.each do |master|-%>
+      <%= master -%>;
+    <% end -%>
+  };
 <% end -%>
 <% if zone_type == 'forward' -%>
   forwarders {

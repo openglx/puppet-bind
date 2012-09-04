@@ -4,6 +4,7 @@
 # See bind::record for more informations
 #
 define bind::mx (
+  $view            = 'all',
   $zone,
   $target,
   $host            = $name,
@@ -16,6 +17,7 @@ define bind::mx (
   ) {
 
   bind::record { "MX-$name":
+    view            => $view,
     zone            => $zone,
     target          => $target,
     host            => $host,

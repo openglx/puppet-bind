@@ -4,6 +4,7 @@
 # See bind::record for more informations
 #
 define bind::srv (
+  $view            = 'all',
   $zone,
   $target,
   $record_port,
@@ -20,6 +21,7 @@ define bind::srv (
   $real_priority = "$record_priority $record_weight $record_port"
 
   bind::record { $name:
+    view            => $view,
     zone            => $zone,
     target          => $target,
     host            => $host,

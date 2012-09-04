@@ -4,6 +4,7 @@
 # See bind::record for more informations
 #
 define bind::cname (
+  $view         = 'all',
   $zone,
   $target,
   $host         = $name,
@@ -15,6 +16,7 @@ define bind::cname (
   ) {
 
   bind::record { "CNAME-$name":
+    view        => $view,
     zone         => $zone,
     target       => $target,
     host         => $host,

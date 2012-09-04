@@ -7,6 +7,7 @@
 # Target default value is $name.
 #
 define bind::ns (
+  $view         = 'all',
   $zone,
   $target       = $name,
   $record_class = 'IN',
@@ -17,6 +18,7 @@ define bind::ns (
   ) {
 
   bind::record { "NS-$name":
+    view         => $view,
     zone         => $zone,
     target       => $target,
     host         => '',

@@ -4,6 +4,9 @@
 #
 # == Parameters:
 #
+# [*view*]
+#   View context for this zone. (Like "Internal" for your servers, "External" for others)
+##
 # [*zone*]
 #   Name of the zone. (Like google.com)
 #
@@ -47,6 +50,7 @@
 #   }
 #
 define bind::record (
+  $view            = 'all',
   $zone,
   $target,
   $host            = $name,
@@ -60,7 +64,7 @@ define bind::record (
   ) {
 
   if $absent == false {
-    @@concat::fragment { "bind-zone-${zone}-${host}-${target}":
+    @@concat::fragment { "bind-zone-${view}-${zone}-${host}-${target}":
       tag     => "bind-zone-$export_tag",
       content => template($template),
     }

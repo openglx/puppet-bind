@@ -4,6 +4,7 @@
 # See bind::record for more informations
 #
 define bind::txt (
+  $view         = 'all',
   $zone,
   $target,
   $host         = $name,
@@ -15,6 +16,7 @@ define bind::txt (
   ) {
 
   bind::record { $name:
+    view         => $view,
     zone         => $zone,
     target       => $target,
     host         => $host,

@@ -4,6 +4,7 @@
 # See bind::record for more informations
 #
 define bind::ptr (
+  $view         = 'all',
   $zone,
   $target,
   $host         = $name,
@@ -15,6 +16,7 @@ define bind::ptr (
   ) {
 
   bind::record { "PTR-$name":
+    view         => $view,
     zone         => $zone,
     target       => $target,
     host         => $host,

@@ -9,6 +9,10 @@
 #
 # == Parameters:
 #
+# [*zone_view*]
+#   to which view this zone is available
+#   (Default: 'all')
+#
 # [*zone_name*]
 #   zone name. Don't forget final point.
 #   (Default: $name)
@@ -92,6 +96,7 @@
 #   }
 #
 define bind::zone(
+  $zone_view      = 'all',
   $zone_serial    = '',
   $zone_name      = $name,
   $zone_type      = 'master',
@@ -125,7 +130,7 @@ define bind::zone(
   }
 
   if $zone_contact == '' {
-    $real_zone_contact = "root.${zone_name}"
+    $real_zone_contact = "hostmaster.${zone_name}"
   } else {
     $real_zone_contact = $zone_contact
   }
@@ -147,16 +152,17 @@ define bind::zone(
         owner => $bind::config_file_owner,
         group => $bind::config_file_group,
       }
-      Concat::Fragment <<| tag == "bind-zone-$real_export_tag" |>> {
+      Concat::Fragment <<| tag == "bind-zone-$view-$real_export_tag" |>> {
         target => "$bind::config_dir/$zone_config_file",
         notify => $bind::manage_service_autorestart,
         order  => 50,
       }
     }
 
-    # Register this subnet file into main configuration
+    # Register this subnet file into view configuration
     concat::fragment {"bind-include-zone-${zone_name}":
-      target  => $bind::config_file,
+      target  => "$bind::config_dir/view.${zone_view}.conf",
+      # You see it actually is part of named.conf, just imported elsewhere
       content => template( 'bind/named.conf-zone.erb' ),
       order   => 50,
     }

@@ -1,0 +1,7 @@
+view "<%= view_name -%>" {
+	match-clients { <%= match_clients %>; };
+
+	recursion no;
+
+	include "<%= view_config_file %>";
+};
