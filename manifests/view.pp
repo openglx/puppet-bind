@@ -43,7 +43,7 @@
 #
 #
 define bind::view(
-  $view_name      = 'all',
+  $view_name      = $name,
   $match_clients  = '0.0.0.0/0',
   $absent         = false,
   $template       = 'bind/view-header.erb',
@@ -91,12 +91,6 @@ define bind::view(
       order   => 01,
     }
 
-	# Tail for external file
-    concat::fragment{"bind-view-${view_name}-tail":
-      target  => "$view_config_file",
-      content => "};",
-      order   => 99,
-    }
   } else {
     file{"view-$view_name":
       ensure => absent,

@@ -160,7 +160,7 @@ define bind::zone(
     }
 
     # Register this subnet file into view configuration
-    concat::fragment {"bind-include-zone-${zone_name}":
+    concat::fragment {"bind-include-zone-${zone_view}-${zone_name}":
       target  => "$bind::config_dir/view.${zone_view}.conf",
       # You see it actually is part of named.conf, just imported elsewhere
       content => template( 'bind/named.conf-zone.erb' ),
@@ -168,7 +168,7 @@ define bind::zone(
     }
 
     if $zone_type== 'master' {
-      concat::fragment{"bind-zone-${zone_name}-header":
+      concat::fragment{"bind-zone-${zone_view}-${zone_name}-header":
         target  => "$bind::config_dir/$zone_config_file",
         content => template($template),
         order   => 01,
